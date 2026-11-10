@@ -519,7 +519,7 @@
 
         reviewFolderSelect.addEventListener('change', loadHistoryData);
 
-        // 呼叫 Gemini AI (修正使用正確的 v1beta generateContent 與 1.5 flash 模型)
+        // 呼叫 Gemini AI (使用最新官方指定的 Interactions API 路由與結構)
         sendAiBtn.addEventListener('click', async () => {
             const apiKey = await getCloudApiKey();
             const text = promptInput.value.trim();
@@ -533,21 +533,29 @@
             aiOutputContent.textContent = "AI 正在為您生成多種說法並歸檔...";
 
             try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const url = `https://generativelanguage.googleapis.com/v1beta/interactions?key=${apiKey}`;
                 const res = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `你是一位專業的外語口說與翻譯教練。使用者輸入中文：「${text}」。請將其翻譯成「${targetLang}」，並嚴格產出 **${count} 種** 不同的道地表達方式（例如口語版、正式版、變化版等）。每種說法請將實用生字或關鍵字用 **粗體** 標註，並附上簡短解析。`
-                            }]
-                        }]
+                        model: "gemini-2.0-flash",
+                        input: `你是一位專業的外語口說與翻譯教練。使用者輸入中文：「${text}」。請將其翻譯成「${targetLang}」，並嚴格產出 **${count} 種** 不同的道地表達方式（例如口語版、正式版、變化版等）。每種說法請將實用生字或關鍵字用 **粗體** 標註，並附上簡短解析。`
                     })
                 });
                 const data = await res.json();
-                if (data.candidates) {
-                    const aiText = data.candidates[0].content.parts[0].text;
+                
+                if (data.outputs || data.response || data.text || data.candidates) {
+                    let aiText = "";
+                    if (data.outputs && data.outputs.length > 0) {
+                        aiText = data.outputs[0].text || JSON.stringify(data.outputs[0]);
+                    } else if (data.text) {
+                        aiText = data.text;
+                    } else if (data.candidates) {
+                        aiText = data.candidates[0].content.parts[0].text;
+                    } else {
+                        aiText = JSON.stringify(data);
+                    }
+
                     aiOutputContent.textContent = aiText;
 
                     await addDoc(collection(db, "learning_history"), {
