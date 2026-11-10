@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- 目標翻譯語言 (包含藏文、蒙古文、義大利、葡萄牙等) -->
+                    <!-- 目標翻譯語言 -->
                     <div>
                         <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">🎯 目標翻譯語言</label>
                         <select id="target-lang-select" class="w-full px-3 py-2 text-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
@@ -146,7 +146,7 @@
                     </div>
                 </div>
 
-                <!-- 語音朗讀與多重腔調設定 (美式/英式多種選擇) -->
+                <!-- 語音朗讀與多重腔調設定 -->
                 <div class="pt-2 border-t border-slate-200 dark:border-slate-700/60 space-y-3">
                     <div>
                         <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">🔊 朗讀發音與腔調選擇 (含美式/英式多選)</label>
@@ -326,14 +326,13 @@
             aiOutputContent.className = aiOutputContent.className.replace(/text-\w+/g, '') + ' ' + fontSizeSelect.value;
         });
 
-        // 語音 TTS 智慧分類（將美式英語、英式英語擴充排序，並支援其他語系）
+        // 語音 TTS 智慧分類
         let synth = window.speechSynthesis;
         let voices = [];
         function populateVoices() {
             voices = synth.getVoices();
             voiceSelect.innerHTML = '';
 
-            // 智慧過濾與標籤化排序
             let usVoices = [];
             let gbVoices = [];
             let otherVoices = [];
@@ -349,7 +348,6 @@
                 }
             });
 
-            // 加入美式發音選項（標示美式 1, 2, 3...）
             usVoices.forEach((v, idx) => {
                 const opt = document.createElement('option');
                 opt.value = v.index;
@@ -357,7 +355,6 @@
                 voiceSelect.appendChild(opt);
             });
 
-            // 加入英式發音選項（標示英式 1, 2, 3...）
             gbVoices.forEach((v, idx) => {
                 const opt = document.createElement('option');
                 opt.value = v.index;
@@ -365,7 +362,6 @@
                 voiceSelect.appendChild(opt);
             });
 
-            // 加入其他語言發音
             otherVoices.forEach((v) => {
                 const opt = document.createElement('option');
                 opt.value = v.index;
@@ -487,7 +483,7 @@
             alert('API Key 已儲存至雲端');
         });
 
-        // 更新複習資料夾選單選項 (包含藏文、蒙古文、義大利、葡萄牙)
+        // 更新複習資料夾選單選項
         function updateReviewFolderOptions() {
             const langs = [
                 "英文 (English)", "日文 (Japanese)", "韓文 (Korean)", 
@@ -523,7 +519,7 @@
 
         reviewFolderSelect.addEventListener('change', loadHistoryData);
 
-        // 呼叫 Gemini AI
+        // 呼叫 Gemini AI (修正使用正確的 v1beta generateContent 與 1.5 flash 模型)
         sendAiBtn.addEventListener('click', async () => {
             const apiKey = await getCloudApiKey();
             const text = promptInput.value.trim();
@@ -537,7 +533,7 @@
             aiOutputContent.textContent = "AI 正在為您生成多種說法並歸檔...";
 
             try {
-                const url = `https://generativelanguage.googleapis.com/v1/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
                 const res = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -562,7 +558,7 @@
                     });
                     loadHistoryData();
                 } else {
-                    aiOutputContent.textContent = "API 回應錯誤";
+                    aiOutputContent.textContent = "API 回應錯誤：" + JSON.stringify(data);
                 }
             } catch (err) {
                 aiOutputContent.textContent = "連線失敗：" + err.message;
