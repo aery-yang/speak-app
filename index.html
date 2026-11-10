@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>家族專屬外語口說練習 App</title>
+    <title>Family Multi-Language Learning AI Hub</title>
     <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,8 +13,8 @@
                 extend: {
                     colors: {
                         glass: {
-                            light: 'rgba(255, 255, 255, 0.75)',
-                            dark: 'rgba(30, 41, 59, 0.75)',
+                            light: 'rgba(255, 255, 255, 0.8)',
+                            dark: 'rgba(30, 41, 59, 0.85)',
                         }
                     }
                 }
@@ -23,14 +23,14 @@
     </script>
     <style>
         .glass-card {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.05);
         }
         .dark .glass-card {
-            background: rgba(30, 41, 59, 0.75);
+            background: rgba(30, 41, 59, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -38,14 +38,14 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-300">
+<body id="app-body" class="bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-300 font-sans">
 
     <!-- 頂部導覽列 -->
     <header class="glass-card sticky top-0 z-50 border-b border-white/20 dark:border-slate-800/50">
-        <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <span class="text-xl">🗣️</span>
-                <h1 class="font-bold text-base tracking-wide bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">Family Speak AI</h1>
+                <span class="text-xl">🌐</span>
+                <h1 class="font-bold text-base tracking-wide bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">Family Multi-Lang AI Hub</h1>
             </div>
             
             <div class="flex items-center space-x-3">
@@ -62,13 +62,13 @@
     </header>
 
     <!-- 主要內容區 -->
-    <main class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full space-y-6">
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full space-y-6">
 
         <!-- 1. 登入 / 註冊區塊 -->
         <section id="auth-section" class="glass-card max-w-md mx-auto p-8 rounded-3xl mt-6 space-y-6">
             <div class="text-center space-y-1">
                 <h2 class="text-xl font-bold text-indigo-600 dark:text-indigo-400">家族授權登入</h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400">請使用您的 Gmail 帳號與專屬密碼登入</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">請使用您的 Gmail 帳號與密碼登入</p>
             </div>
             <div class="space-y-4">
                 <div>
@@ -76,7 +76,7 @@
                     <input type="email" id="auth-email" placeholder="your-email@gmail.com" class="w-full px-4 py-2.5 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">密碼 (首次登入即註冊)</label>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">密碼</label>
                     <input type="password" id="auth-password" placeholder="••••••••" class="w-full px-4 py-2.5 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm transition">
                 </div>
                 <div id="auth-error" class="text-rose-500 text-xs font-medium hidden text-center bg-rose-50 dark:bg-rose-950/50 p-2.5 rounded-xl border border-rose-200 dark:border-rose-900"></div>
@@ -86,65 +86,135 @@
             </div>
         </section>
 
-        <!-- 2. 口說練習主介面 -->
+        <!-- 2. 主介面 (登入後顯示) -->
         <section id="app-section" class="hidden space-y-6">
             
-            <!-- [僅管理者可見] 雲端 API Key 與語音設定卡片 -->
-            <div id="admin-config-card" class="glass-card p-5 rounded-3xl border-amber-300/50 dark:border-amber-500/30 bg-amber-50/50 dark:bg-amber-950/20 hidden space-y-4">
-                <div class="flex justify-between items-center">
-                    <span class="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider flex items-center gap-1">👑 管理者：系統與語音設定</span>
-                    <span class="text-[11px] text-amber-600 dark:text-amber-500">全家人自動同步</span>
+            <!-- [後台設定面板] 目標語言、句數、字型、語音、語速、API Key -->
+            <div class="glass-card p-6 rounded-3xl space-y-4 border-indigo-200 dark:border-indigo-900/50">
+                <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700/60 pb-3">
+                    <h2 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">⚙️ 學習與外觀進階設定</h2>
+                    <span class="text-xs text-slate-400">個人化調整即時生效</span>
                 </div>
-                
-                <div class="space-y-3">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 目標翻譯語言 (包含藏文、蒙古文、義大利、葡萄牙等) -->
                     <div>
-                        <label class="block text-xs font-medium text-amber-800 dark:text-amber-300 mb-1">Gemini API Key</label>
-                        <div class="flex flex-col sm:flex-row gap-2">
-                            <input type="password" id="api-key-input" placeholder="貼上您的 Gemini API Key" class="w-full px-3.5 py-2 text-sm bg-white/80 dark:bg-slate-900/80 border border-amber-200 dark:border-amber-900/50 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
-                            <button id="save-key-btn" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium px-5 py-2 rounded-xl transition whitespace-nowrap shadow-sm">
-                                儲存金鑰
-                            </button>
+                        <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">🎯 目標翻譯語言</label>
+                        <select id="target-lang-select" class="w-full px-3 py-2 text-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="英文 (English)">英文 (English)</option>
+                            <option value="日文 (Japanese)">日文 (Japanese)</option>
+                            <option value="韓文 (Korean)">韓文 (Korean)</option>
+                            <option value="藏文 (Tibetan)">藏文 (Tibetan)</option>
+                            <option value="蒙古文 (Mongolian)">蒙古文 (Mongolian)</option>
+                            <option value="義大利文 (Italian)">義大利文 (Italian)</option>
+                            <option value="葡萄牙文 (Portuguese)">葡萄牙文 (Portuguese)</option>
+                            <option value="法文 (French)">法文 (French)</option>
+                            <option value="德文 (German)">德文 (German)</option>
+                            <option value="西班牙文 (Spanish)">西班牙文 (Spanish)</option>
+                        </select>
+                    </div>
+
+                    <!-- 句數選擇 -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">📝 一次產出幾種說法</label>
+                        <select id="sentence-count-select" class="w-full px-3 py-2 text-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="2">2 種說法 (日常/正式)</option>
+                            <option value="3">3 種說法 (多情境變化)</option>
+                            <option value="1">1 種精簡說法</option>
+                        </select>
+                    </div>
+
+                    <!-- 字型選擇 -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">🔤 介面與內容字型</label>
+                        <select id="font-family-select" class="w-full px-3 py-2 text-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="font-sans">預設現代字體 (Sans)</option>
+                            <option value="font-serif">優雅襯線字體 (Serif)</option>
+                            <option value="font-mono">程式碼等寬字體 (Mono)</option>
+                        </select>
+                    </div>
+
+                    <!-- 字型大小設定 -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">🔍 內容字型大小</label>
+                        <select id="font-size-select" class="w-full px-3 py-2 text-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="text-xs">小 (xs)</option>
+                            <option value="text-sm" selected>標準 (sm)</option>
+                            <option value="text-base">大 (base)</option>
+                            <option value="text-lg">特大 (lg)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 語音朗讀與多重腔調設定 (美式/英式多種選擇) -->
+                <div class="pt-2 border-t border-slate-200 dark:border-slate-700/60 space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">🔊 朗讀發音與腔調選擇 (含美式/英式多選)</label>
+                        <div class="flex gap-2">
+                            <select id="voice-select" class="w-full px-3 py-2 text-sm bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <option value="">載入語音中...</option>
+                            </select>
+                            <button id="test-voice-btn" class="bg-slate-700 hover:bg-slate-800 text-white text-xs px-4 py-2 rounded-xl transition whitespace-nowrap">預聽</button>
                         </div>
                     </div>
 
-                    <!-- 語音選擇與預聽設定 -->
+                    <!-- 語速滑桿設定 -->
                     <div>
-                        <label class="block text-xs font-medium text-amber-800 dark:text-amber-300 mb-1">選擇朗讀語音 (TTS Voice)</label>
-                        <div class="flex flex-col sm:flex-row gap-2">
-                            <select id="voice-select" class="w-full px-3 py-2 text-sm bg-white/80 dark:bg-slate-900/80 border border-amber-200 dark:border-amber-900/50 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
-                                <option value="">載入系統語音中...</option>
-                            </select>
-                            <button id="test-voice-btn" class="w-full sm:w-auto bg-slate-700 hover:bg-slate-800 text-white text-xs font-medium px-4 py-2 rounded-xl transition whitespace-nowrap shadow-sm flex items-center justify-center gap-1">
-                                <span>🔊 預聽發音</span>
-                            </button>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300">⚡ 語速控制 (Speed)</label>
+                            <span id="rate-display" class="text-xs font-bold text-indigo-600 dark:text-indigo-400">1.0x</span>
                         </div>
+                        <input type="range" id="speech-rate-range" min="0.5" max="1.5" step="0.1" value="1.0" class="w-full accent-indigo-600 cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- [管理者專屬] API Key -->
+                <div id="admin-config-box" class="pt-2 border-t border-amber-200 dark:border-amber-900/50 hidden">
+                    <label class="block text-xs font-bold text-amber-700 dark:text-amber-400 mb-1">👑 管理者：Gemini API Key 雲端共用設定</label>
+                    <div class="flex gap-2">
+                        <input type="password" id="api-key-input" placeholder="貼上 Gemini API Key" class="w-full px-3 py-2 text-sm bg-white/70 dark:bg-slate-900/70 border border-amber-300 dark:border-amber-800 rounded-xl outline-none">
+                        <button id="save-key-btn" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-4 py-2 rounded-xl transition whitespace-nowrap">儲存金鑰</button>
                     </div>
                 </div>
             </div>
 
-            <!-- 對話與練習主卡片 -->
+            <!-- 輸入與練習區 -->
             <div class="glass-card p-6 rounded-3xl space-y-4">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">✨ AI 口說教練與情境練習</h2>
-                    <span class="text-xs px-2.5 py-1 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-medium">Gemini 1.5 Flash</span>
+                <div class="flex justify-between items-center">
+                    <h2 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">✨ 智能口說與多語翻譯練習</h2>
+                    <button id="mic-btn" class="text-xs bg-violet-600 hover:bg-violet-700 text-white px-3.5 py-1.5 rounded-full transition flex items-center gap-1 shadow-sm">
+                        <span>🎤 語音輸入中文</span>
+                    </button>
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">輸入你想練習的句子或對話情境：</label>
-                    <textarea id="prompt-input" rows="3" placeholder="例如：我想練習在咖啡廳點餐的英文對話，請幫我示範與糾正..." class="w-full px-4 py-3 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm transition"></textarea>
+                    <textarea id="prompt-input" rows="3" placeholder="請輸入或語音輸入想翻譯的中文句子..." class="w-full px-4 py-3 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm transition"></textarea>
                 </div>
-                <button id="send-ai-btn" class="w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-medium px-6 py-3 rounded-2xl transition shadow-lg shadow-indigo-500/20 text-sm flex items-center justify-center gap-2">
-                    <span>開始 AI 智能分析與對話</span>
+                <button id="send-ai-btn" class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-medium py-3 rounded-2xl transition shadow-lg shadow-indigo-500/20 text-sm">
+                    ✨ 開始生成多語說法並自動歸檔
                 </button>
 
-                <!-- AI 回應結果容器 -->
+                <!-- AI 結果與複習庫提示 -->
                 <div id="ai-result-container" class="hidden mt-4 p-5 bg-indigo-50/60 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 rounded-2xl space-y-3">
                     <div class="flex justify-between items-center">
-                        <h3 class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">💡 AI 教練建議與生字高亮</h3>
+                        <h3 id="result-title" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">💡 翻譯結果 (已自動存入專屬語言資料夾)</h3>
                         <button id="speak-result-btn" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <span>🔊 朗讀這段回答</span>
+                            <span>🔊 朗讀結果</span>
                         </button>
                     </div>
-                    <div id="ai-output-content" class="text-slate-700 dark:text-slate-200 leading-relaxed text-sm whitespace-pre-wrap"></div>
+                    <div id="ai-output-content" class="text-slate-700 dark:text-slate-200 leading-relaxed whitespace-pre-wrap text-sm"></div>
+                </div>
+            </div>
+
+            <!-- 歷史複習專區 (依照語言資料夾分類) -->
+            <div class="glass-card p-6 rounded-3xl space-y-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">📂 雲端複習資料夾</h2>
+                    <select id="review-folder-select" class="px-3 py-1 text-xs bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 rounded-xl outline-none">
+                        <!-- 動態載入語言分類 -->
+                    </select>
+                </div>
+                <div id="history-list" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-xs">
+                    <p class="text-slate-400 text-center py-4">載入歷史紀錄中...</p>
                 </div>
             </div>
 
@@ -154,14 +224,14 @@
 
     <!-- 頁尾 -->
     <footer class="text-center py-6 text-xs text-slate-400 dark:text-slate-500">
-        ObsiDRAGON AI Foundation © 2026 - Family Learning Hub
+        ObsiDRAGON AI Foundation © 2026 - Multi-Language Learning Hub
     </footer>
 
-    <!-- Firebase SDKs 與 語音/AI 邏輯 -->
+    <!-- Firebase SDKs 與 核心邏輯 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBv5Drgh-rFyXwI9WKjTu5IFGzYYUtuSto",
@@ -190,99 +260,171 @@
         const authError = document.getElementById('auth-error');
         const logoutBtn = document.getElementById('logout-btn');
         
-        const adminConfigCard = document.getElementById('admin-config-card');
+        const adminConfigBox = document.getElementById('admin-config-box');
         const apiKeyInput = document.getElementById('api-key-input');
         const saveKeyBtn = document.getElementById('save-key-btn');
+        
+        const targetLangSelect = document.getElementById('target-lang-select');
+        const sentenceCountSelect = document.getElementById('sentence-count-select');
+        const fontFamilySelect = document.getElementById('font-family-select');
+        const fontSizeSelect = document.getElementById('font-size-select');
+        const appBody = document.getElementById('app-body');
+
         const voiceSelect = document.getElementById('voice-select');
         const testVoiceBtn = document.getElementById('test-voice-btn');
-
+        const speechRateRange = document.getElementById('speech-rate-range');
+        const rateDisplay = document.getElementById('rate-display');
+        
+        const micBtn = document.getElementById('mic-btn');
         const promptInput = document.getElementById('prompt-input');
         const sendAiBtn = document.getElementById('send-ai-btn');
         const aiResultContainer = document.getElementById('ai-result-container');
         const aiOutputContent = document.getElementById('ai-output-content');
         const speakResultBtn = document.getElementById('speak-result-btn');
         
+        const reviewFolderSelect = document.getElementById('review-folder-select');
+        const historyList = document.getElementById('history-list');
+
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
 
-        // 瀏覽器內建語音初始化
+        // 載入個人化設定
+        function loadSettings() {
+            if (localStorage.getItem('pref_lang')) targetLangSelect.value = localStorage.getItem('pref_lang');
+            if (localStorage.getItem('pref_count')) sentenceCountSelect.value = localStorage.getItem('pref_count');
+            if (localStorage.getItem('pref_rate')) {
+                speechRateRange.value = localStorage.getItem('pref_rate');
+                rateDisplay.textContent = localStorage.getItem('pref_rate') + 'x';
+            }
+            if (localStorage.getItem('pref_font')) {
+                fontFamilySelect.value = localStorage.getItem('pref_font');
+                appBody.className = appBody.className.replace(/font-\w+/g, '') + ' ' + localStorage.getItem('pref_font');
+            }
+            if (localStorage.getItem('pref_fontsize')) {
+                fontSizeSelect.value = localStorage.getItem('pref_fontsize');
+                aiOutputContent.className = aiOutputContent.className.replace(/text-\w+/g, '') + ' ' + localStorage.getItem('pref_fontsize');
+            }
+        }
+        loadSettings();
+
+        targetLangSelect.addEventListener('change', () => localStorage.setItem('pref_lang', targetLangSelect.value));
+        sentenceCountSelect.addEventListener('change', () => localStorage.setItem('pref_count', sentenceCountSelect.value));
+        
+        speechRateRange.addEventListener('input', () => {
+            const val = speechRateRange.value;
+            rateDisplay.textContent = val + 'x';
+            localStorage.setItem('pref_rate', val);
+        });
+
+        fontFamilySelect.addEventListener('change', () => {
+            localStorage.setItem('pref_font', fontFamilySelect.value);
+            appBody.className = appBody.className.replace(/font-\w+/g, '') + ' ' + fontFamilySelect.value;
+        });
+
+        fontSizeSelect.addEventListener('change', () => {
+            localStorage.setItem('pref_fontsize', fontSizeSelect.value);
+            aiOutputContent.className = aiOutputContent.className.replace(/text-\w+/g, '') + ' ' + fontSizeSelect.value;
+        });
+
+        // 語音 TTS 智慧分類（將美式英語、英式英語擴充排序，並支援其他語系）
         let synth = window.speechSynthesis;
         let voices = [];
-
         function populateVoices() {
             voices = synth.getVoices();
             voiceSelect.innerHTML = '';
-            
-            // 優先過濾出英文與日、韓、中等常用外語語音
-            voices.forEach((voice, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = `${voice.name} (${voice.lang})`;
-                if (voice.lang.includes('en') || voice.lang.includes('zh') || voice.lang.includes('ja')) {
-                    voiceSelect.appendChild(option);
+
+            // 智慧過濾與標籤化排序
+            let usVoices = [];
+            let gbVoices = [];
+            let otherVoices = [];
+
+            voices.forEach((v, i) => {
+                const item = { index: i, name: v.name, lang: v.lang };
+                if (v.lang.toLowerCase().includes('en-us')) {
+                    usVoices.push(item);
+                } else if (v.lang.toLowerCase().includes('en-gb')) {
+                    gbVoices.push(item);
+                } else {
+                    otherVoices.push(item);
                 }
             });
 
-            if (voiceSelect.options.length === 0) {
-                voices.forEach((voice, index) => {
-                    const option = document.createElement('option');
-                    option.value = index;
-                    option.textContent = `${voice.name} (${voice.lang})`;
-                    voiceSelect.appendChild(option);
-                });
-            }
+            // 加入美式發音選項（標示美式 1, 2, 3...）
+            usVoices.forEach((v, idx) => {
+                const opt = document.createElement('option');
+                opt.value = v.index;
+                opt.textContent = `🇺🇸 美式英語發音 ${idx + 1}：${v.name}`;
+                voiceSelect.appendChild(opt);
+            });
 
-            // 讀取先前儲存的語音偏好
-            const savedVoiceIndex = localStorage.getItem('selected_voice_index');
-            if (savedVoiceIndex !== null && savedVoiceIndex < voices.length) {
-                voiceSelect.value = savedVoiceIndex;
-            }
+            // 加入英式發音選項（標示英式 1, 2, 3...）
+            gbVoices.forEach((v, idx) => {
+                const opt = document.createElement('option');
+                opt.value = v.index;
+                opt.textContent = `🇬🇧 英式英語發音 ${idx + 1}：${v.name}`;
+                voiceSelect.appendChild(opt);
+            });
+
+            // 加入其他語言發音
+            otherVoices.forEach((v) => {
+                const opt = document.createElement('option');
+                opt.value = v.index;
+                opt.textContent = `🌐 ${v.name} (${v.lang})`;
+                voiceSelect.appendChild(opt);
+            });
+
+            const savedV = localStorage.getItem('user_voice_idx');
+            if (savedV !== null && savedV < voices.length) voiceSelect.value = savedV;
+            updateReviewFolderOptions();
         }
-
         populateVoices();
-        if (synth.onvoiceschanged !== undefined) {
-            synth.onvoiceschanged = populateVoices;
-        }
+        if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = populateVoices;
 
-        // 預聽發音按鈕
+        voiceSelect.addEventListener('change', () => localStorage.setItem('user_voice_idx', voiceSelect.value));
+        
         testVoiceBtn.addEventListener('click', () => {
-            if (voices.length === 0) {
-                alert('系統正在載入語音，請稍候再試...');
-                return;
-            }
-            synth.cancel(); // 停止先前的朗讀
-            const selectedIndex = voiceSelect.value;
-            const utterance = new SpeechSynthesisUtterance("Hello! Welcome to your family language learning assistant. Let's practice speaking together!");
-            utterance.voice = voices[selectedIndex];
-            utterance.rate = 1.0; // 語速
-            synth.speak(utterance);
-        });
-
-        // 儲存語音偏好至瀏覽器
-        voiceSelect.addEventListener('change', () => {
-            localStorage.setItem('selected_voice_index', voiceSelect.value);
-        });
-
-        // 朗讀 AI 回答按鈕
-        speakResultBtn.addEventListener('click', () => {
-            const textToSpeak = aiOutputContent.textContent;
-            if (!textToSpeak) return;
+            if (!voices.length) return;
             synth.cancel();
-            const selectedIndex = voiceSelect.value || 0;
-            const utterance = new SpeechSynthesisUtterance(textToSpeak);
-            if (voices[selectedIndex]) {
-                utterance.voice = voices[selectedIndex];
-            }
-            synth.speak(utterance);
+            const u = new SpeechSynthesisUtterance("Hello! Welcome to your advanced multi-language learning center.");
+            u.voice = voices[voiceSelect.value || 0];
+            u.rate = parseFloat(speechRateRange.value);
+            synth.speak(u);
         });
 
-        // Dark Mode 切換
+        speakResultBtn.addEventListener('click', () => {
+            const text = aiOutputContent.textContent;
+            if (!text) return;
+            synth.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            if (voices[voiceSelect.value]) u.voice = voices[voiceSelect.value];
+            u.rate = parseFloat(speechRateRange.value);
+            synth.speak(u);
+        });
+
+        // 語音輸入 STT
+        micBtn.addEventListener('click', () => {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert('您的瀏覽器不支援語音輸入'); return; }
+            const rec = new SpeechRecognition();
+            rec.lang = 'zh-TW';
+            micBtn.textContent = "🎙️ 聆聽中...";
+            micBtn.classList.add('animate-pulse', 'bg-rose-600');
+            rec.onresult = (e) => {
+                promptInput.value = e.results[0][0].transcript;
+                micBtn.textContent = "🎤 語音輸入中文";
+                micBtn.classList.remove('animate-pulse', 'bg-rose-600');
+            };
+            rec.onerror = () => { micBtn.textContent = "🎤 語音輸入中文"; micBtn.classList.remove('animate-pulse', 'bg-rose-600'); };
+            rec.onend = () => { micBtn.textContent = "🎤 語音輸入中文"; micBtn.classList.remove('animate-pulse', 'bg-rose-600'); };
+            rec.start();
+        });
+
+        // Dark Mode
         const htmlElement = document.documentElement;
         if (localStorage.getItem('theme') === 'dark') {
             htmlElement.classList.add('dark');
             themeIcon.textContent = '☀️';
         }
-
         themeToggle.addEventListener('click', () => {
             if (htmlElement.classList.contains('dark')) {
                 htmlElement.classList.remove('dark');
@@ -295,25 +437,18 @@
             }
         });
 
-        // 取得雲端 API Key
         async function getCloudApiKey() {
             try {
-                const docRef = doc(db, "settings", "gemini_config");
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    return docSnap.data().apiKey;
-                }
-            } catch (e) {
-                console.error("讀取雲端金鑰失敗：", e);
-            }
+                const snap = await getDoc(doc(db, "settings", "gemini_config"));
+                if (snap.exists()) return snap.data().apiKey;
+            } catch (e) {}
             return null;
         }
 
-        // 監聽登入狀態
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 if (!ALLOWED_EMAILS.includes(user.email)) {
-                    authError.textContent = "此帳號不在家族授權白名單內！";
+                    authError.textContent = "此帳號不在白名單內";
                     authError.classList.remove('hidden');
                     signOut(auth);
                     return;
@@ -324,96 +459,110 @@
                 userEmailSpan.textContent = user.email;
 
                 if (user.email === ADMIN_EMAIL) {
-                    adminConfigCard.classList.remove('hidden');
-                    const currentKey = await getCloudApiKey();
-                    if (currentKey) apiKeyInput.value = currentKey;
+                    adminConfigBox.classList.remove('hidden');
+                    const key = await getCloudApiKey();
+                    if (key) apiKeyInput.value = key;
                 }
+                loadHistoryData();
             } else {
                 authSection.classList.remove('hidden');
                 appSection.classList.add('hidden');
                 userInfo.classList.add('hidden');
-                adminConfigCard.classList.add('hidden');
             }
         });
 
-        // 登入按鈕
         authSubmitBtn.addEventListener('click', async () => {
-            const email = authEmailInput.value.trim();
-            const password = authPasswordInput.value.trim();
-            authError.classList.add('hidden');
-
-            if (!email || !password) {
-                authError.textContent = "請輸入 Email 與密碼";
-                authError.classList.remove('hidden');
-                return;
-            }
-
-            if (!ALLOWED_EMAILS.includes(email)) {
-                authError.textContent = "此信箱未取得家族授權。";
-                authError.classList.remove('hidden');
-                return;
-            }
-
             try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-                    try {
-                        await createUserWithEmailAndPassword(auth, email, password);
-                    } catch (regError) {
-                        authError.textContent = "註冊失敗：" + regError.message;
-                        authError.classList.remove('hidden');
-                    }
-                } else {
-                    authError.textContent = "登入失敗：密碼錯誤或帳號有誤。";
-                    authError.classList.remove('hidden');
-                }
+                await signInWithEmailAndPassword(auth, authEmailInput.value.trim(), authPasswordInput.value.trim());
+            } catch (e) {
+                try { await createUserWithEmailAndPassword(auth, authEmailInput.value.trim(), authPasswordInput.value.trim()); } catch (err) { alert(err.message); }
             }
         });
 
         logoutBtn.addEventListener('click', () => signOut(auth));
-
-        // 儲存金鑰到雲端
         saveKeyBtn.addEventListener('click', async () => {
             const key = apiKeyInput.value.trim();
-            if (!key) { alert('請輸入有效的 API Key'); return; }
-            try {
-                await setDoc(doc(db, "settings", "gemini_config"), { apiKey: key });
-                alert('Gemini API Key 已成功儲存至雲端資料庫！');
-            } catch (err) {
-                alert('儲存失敗：' + err.message);
-            }
+            if (!key) return;
+            await setDoc(doc(db, "settings", "gemini_config"), { apiKey: key });
+            alert('API Key 已儲存至雲端');
         });
+
+        // 更新複習資料夾選單選項 (包含藏文、蒙古文、義大利、葡萄牙)
+        function updateReviewFolderOptions() {
+            const langs = [
+                "英文 (English)", "日文 (Japanese)", "韓文 (Korean)", 
+                "藏文 (Tibetan)", "蒙古文 (Mongolian)", "義大利文 (Italian)", "葡萄牙文 (Portuguese)",
+                "法文 (French)", "德文 (German)", "西班牙文 (Spanish)"
+            ];
+            reviewFolderSelect.innerHTML = langs.map(l => `<option value="${l}">${l} 資料夾</option>`).join('');
+        }
+        updateReviewFolderOptions();
+
+        // 載入歷史紀錄
+        async function loadHistoryData() {
+            const selectedLang = reviewFolderSelect.value;
+            historyList.innerHTML = `<p class="text-slate-400 text-center py-2">載入中...</p>`;
+            try {
+                const q = query(collection(db, "learning_history"), orderBy("timestamp", "desc"));
+                const snap = await getDocs(q);
+                let html = "";
+                snap.forEach(docSnap => {
+                    const data = docSnap.data();
+                    if (data.language === selectedLang) {
+                        html += `<div class="p-2.5 bg-white/40 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700/50 space-y-1">
+                            <div class="font-semibold text-indigo-600 dark:text-indigo-400">中：${data.sourceText}</div>
+                            <div class="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${data.aiResult}</div>
+                        </div>`;
+                    }
+                });
+                historyList.innerHTML = html || `<p class="text-slate-400 text-center py-4">此資料夾尚無紀錄</p>`;
+            } catch (e) {
+                historyList.innerHTML = `<p class="text-rose-400 text-center py-2">載入失敗</p>`;
+            }
+        }
+
+        reviewFolderSelect.addEventListener('change', loadHistoryData);
 
         // 呼叫 Gemini AI
         sendAiBtn.addEventListener('click', async () => {
             const apiKey = await getCloudApiKey();
-            const promptText = promptInput.value.trim();
+            const text = promptInput.value.trim();
+            const targetLang = targetLangSelect.value;
+            const count = sentenceCountSelect.value;
 
-            if (!apiKey) { alert('尚未設定雲端 Gemini API Key！請先由管理者帳號登入設定。'); return; }
-            if (!promptText) { alert('請輸入想要練習的內容！'); return; }
+            if (!apiKey) { alert('尚未設定 API Key'); return; }
+            if (!text) { alert('請輸入想要翻譯的中文'); return; }
 
             aiResultContainer.classList.remove('hidden');
-            aiOutputContent.textContent = "Gemini 教練正在分析中...";
+            aiOutputContent.textContent = "AI 正在為您生成多種說法並歸檔...";
 
             try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+                const res = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{
                             parts: [{
-                                text: `你是一位專業的外語口說與生字教練。請針對使用者的輸入進行回覆、糾正文法錯誤，並將重要的實用片語或生字特別用粗體標註。使用者輸入：${promptText}`
+                                text: `你是一位專業的外語口說與翻譯教練。使用者輸入中文：「${text}」。請將其翻譯成「${targetLang}」，並嚴格產出 **${count} 種** 不同的道地表達方式（例如口語版、正式版、變化版等）。每種說法請將實用生字或關鍵字用 **粗體** 標註，並附上簡短解析。`
                             }]
                         }]
                     })
                 });
+                const data = await res.json();
+                if (data.candidates) {
+                    const aiText = data.candidates[0].content.parts[0].text;
+                    aiOutputContent.textContent = aiText;
 
-                const data = await response.json();
-                if (data.candidates && data.candidates[0].content) {
-                    aiOutputContent.textContent = data.candidates[0].content.parts[0].text;
+                    await addDoc(collection(db, "learning_history"), {
+                        language: targetLang,
+                        sourceText: text,
+                        aiResult: aiText,
+                        timestamp: new Date()
+                    });
+                    loadHistoryData();
                 } else {
-                    aiOutputContent.textContent = "API 回應發生錯誤，請檢查雲端 API Key 是否正確。";
+                    aiOutputContent.textContent = "API 回應錯誤";
                 }
             } catch (err) {
                 aiOutputContent.textContent = "連線失敗：" + err.message;
