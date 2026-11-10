@@ -538,7 +538,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        model: "gemini-2.0-flash",
+                        model: "gemini-3.8-flash",
                         input: `你是一位專業的外語口說與翻譯教練。使用者輸入中文：「${text}」。請將其翻譯成「${targetLang}」，並嚴格產出 **${count} 種** 不同的道地表達方式（例如口語版、正式版、變化版等）。每種說法請將實用生字或關鍵字用 **粗體** 標註，並附上簡短解析。`
                     })
                 });
