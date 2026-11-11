@@ -190,7 +190,7 @@
                     <textarea id="prompt-input" rows="3" placeholder="請輸入或語音輸入想翻譯的中文句子..." class="w-full px-4 py-3 bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm transition"></textarea>
                 </div>
                 <button id="send-ai-btn" class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-medium py-3 rounded-2xl transition shadow-lg shadow-indigo-500/20 text-sm">
-                    ✨ 開始生成多語說法並自動歸檔
+                    ✨ 取得乾淨大字翻譯並自動歸檔
                 </button>
 
                 <!-- AI 結果與複習庫提示 -->
@@ -519,84 +519,60 @@
 
         reviewFolderSelect.addEventListener('change', loadHistoryData);
 
-        // 呼叫 Gemini AI (直連穩定模型清單與自動備援切換機制)
+        // 呼叫 Gemini AI (設計方案 A：嚴格只要乾淨大字的翻譯句子，絕不囉嗦)
         sendAiBtn.addEventListener('click', async () => {
             const apiKey = await getCloudApiKey();
             const text = promptInput.value.trim();
             const targetLang = targetLangSelect.value;
             const count = sentenceCountSelect.value;
 
-            if (!apiKey) { 
-                alert('尚未設定 API Key！請先在管理者設定中輸入您的 Gemini API Key。'); 
-                return; 
-            }
-            if (!text) { 
-                alert('請輸入想要翻譯的中文！'); 
-                return; 
-            }
+            if (!apiKey) { alert('尚未設定 API Key！'); return; }
+            if (!text) { alert('請輸入想要翻譯的中文！'); return; }
 
             aiResultContainer.classList.remove('hidden');
-            aiOutputContent.textContent = "AI 正在為您生成多種說法並歸檔...";
+            aiOutputContent.textContent = "生成中...";
 
-            const promptText = `你是一位專業的外語口說與翻譯教練。使用者輸入中文：「${text}」。請將其翻譯成「${targetLang}」，並嚴格產出 **${count} 種** 不同的道地表達方式（例如口語版、正式版、變化版等）。每種說法請將實用生字或關鍵字用 **粗體** 標註，並附上簡短解析。`;
+            // 嚴格限制：只要翻譯句子，不要任何廢話與解析
+            const promptText = `請將中文「${text}」翻譯成「${targetLang}」。請嚴格只產出 ${count} 個最道地的翻譯句子。絕對不要有任何解釋、解析或項目符號以外的廢話，直接給我英文句子本身。`;
 
-            // 按照官方推薦的穩定 Flash 模型順序依序嘗試
-            const modelsToTry = [
-                "gemini-3.8-flash",
-                "gemini-3.6-flash",
-                "gemini-3.5-flash"
-            ];
-
+            const modelsToTry = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash"];
             let success = false;
             let aiText = "";
-            let lastError = "";
 
             for (const model of modelsToTry) {
                 try {
                     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-                    
                     const res = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            contents: [{
-                                parts: [{ text: promptText }]
-                            }]
+                            contents: [{ parts: [{ text: promptText }] }]
                         })
                     });
-
                     const data = await res.json();
-
                     if (data.candidates && data.candidates.length > 0) {
                         aiText = data.candidates[0].content.parts[0].text;
                         success = true;
-                        break; // 成功取得結果，跳出迴圈
-                    } else if (data.error) {
-                        lastError = data.error.message || JSON.stringify(data.error);
-                        console.warn(`模型 [${model}] 回傳錯誤:`, lastError);
+                        break;
                     }
                 } catch (err) {
-                    lastError = err.message;
-                    console.warn(`模型 [${model}] 連線失敗:`, err);
+                    console.warn(model, err);
                 }
             }
 
             if (success) {
-                aiOutputContent.textContent = aiText;
+                // 用醒目大字體呈現純翻譯結果
+                aiOutputContent.innerHTML = `<div class="text-lg md:text-xl font-bold tracking-wide text-indigo-700 dark:text-indigo-300 space-y-2">${aiText.replace(/\n/g, '<br>')}</div>`;
 
-                try {
-                    await addDoc(collection(db, "learning_history"), {
-                        language: targetLang,
-                        sourceText: text,
-                        aiResult: aiText,
-                        timestamp: new Date()
-                    });
-                    loadHistoryData();
-                } catch (dbErr) {
-                    console.error("雲端歸檔失敗:", dbErr);
-                }
+                await addDoc(collection(db, "learning_history"), {
+                    language: targetLang,
+                    sourceText: text,
+                    aiResult: aiText,
+                    timestamp: new Date()
+                });
+                loadHistoryData();
             } else {
-                aiOutputContent.textContent = `⚠️ 生成失敗。\n系統嘗試了所有備用模型，但皆無法回應。\n最後錯誤訊息：${lastError || "未知錯誤，請檢查 API Key 是否正確或額度是否足夠。"}`;
+                aiOutputContent.textContent = "⚠️ 生成失敗，請稍後再試。";
             }
         });
     </script>
